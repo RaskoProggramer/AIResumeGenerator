@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Resume Generator</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <h1>Intelligent Resume Generator</h1>
+  <form id="resumeForm">
+    <label for="profilePic">Upload Profile Picture:</label>
+    <input type="file" id="profilePic" accept="image/*" />
+    <input type="text" id="name" placeholder="Name and Surname" required />
+    <input type="text" id="jobTitle" placeholder="Job Title" required />
+    <input type="text" id="email" placeholder="Email" required />
+    <input type="text" id="contact" placeholder="Contact Number" required />
+    <input type="text" id="address" placeholder="Address" required />
+    <input type="text" id="citizenship" placeholder="Citizenship" required />
+    <input type="text" id="license" placeholder="Driver's License" required />
+    <input type="number" id="experienceYears" placeholder="Years of Experience" required />
+    <textarea id="education" placeholder="Education background" required></textarea>
+    <textarea id="summary" placeholder="summary" required></textarea>
+    <textarea id="skills" placeholder="Skills (comma separated)" required></textarea>
+    <textarea id="strengths" placeholder="Strengths" required></textarea>
+    <textarea id="weaknesses" placeholder="Weaknesses" required></textarea>
+    <textarea id="jobDescription" placeholder="Paste Job Description (optional)"></textarea>
+    <button type="submit">Generate Smart CV</button>
+  </form>
+  <textarea id="summary" placeholder="Generated Summary" rows="5"></textarea>
+  <h3>Select a Resume Template:</h3>
+  <select id="templateSelect" onchange="previewTemplate()">
+  <option value="1">Classic Blue (Template 1)</option>
+  <option value="2">Modern Green (Template 2)</option>
+  <option value="3">Elegant Purple (Template 3)</option>
+  </select>
+  <select id="formatSelect">
+  <option value="pdf">PDF</option>
+  <option value="docx">DOCX</option>
+  <option value="html">HTML</option>
+  </select>
+  <h2>Resume Preview:</h2>
+  <iframe id="resumePreview" style="width:100%; height:600px; border:1px solid #ccc;"></iframe>
+  <button onclick="downloadSelectedFormat()">Download</button>
+  <div id="atsResult"></div>
+  <script src="https://unpkg.com/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+</body>
+</html>
