@@ -1,41 +1,97 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  margin: 40px;
-  background-color: #f4f4f4;
-}
-
-h1 {
-  color: #333;
-}
-
-form {
+  margin: 0;
+  font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  background: #ffffff;               
+  color: #3d004d;                    
   display: flex;
   flex-direction: column;
-  max-width: 500px;
-  margin-bottom: 30px;
+  align-items: center;             
+  padding: 2rem 1rem;
+  background-image: url("image.jpg");
 }
 
-input, textarea {
-  margin-bottom: 15px;
-  padding: 10px;
-  font-size: 1em;
+h1,
+h2,
+h3 {
+  text-align: center;
+  margin: 0 0 1rem;
+  color: #cccfcf;                    
 }
+
+form#resumeForm {
+  width: 100%;
+  max-width: 640px;                 
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 2rem 1.5rem;
+  background: #f9f5ff;               
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+label {
+  font-weight: 600;
+  color: #6a0dad;
+}
+
+label.required::after {             
+  content: " *";
+  color: #0b722a;                   
+}
+
+input,
+textarea,
+select {
+  padding: 0.7rem 0.9rem;
+  border: 2px solid #6a0dad;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #ffffff;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #ff3b30;
+  box-shadow: 0 0 6px rgba(255, 59, 48, 0.35);
+}
+
 
 button {
-  padding: 10px;
-  font-weight: bold;
-  background-color: #007bff;
-  color: white;
+  padding: 0.9rem 1.2rem;
+  font-weight: 700;
   border: none;
+  border-radius: 8px;
+  background: #6a0dad;
+  color: #ffffff;
   cursor: pointer;
+  transition: background 0.25s;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background: #ff3b30;
 }
 
-.preview {
-  background: white;
-  padding: 20px;
-  border: 1px solid #ccc;
+/* ----- Preview & ATS result ----- */
+iframe#resumePreview {
+  width: 100%;
+  height: 600px;
+  border: 2px solid #cccccc;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+#atsResult {
+  margin-top: 1.5rem;
+  font-weight: 600;
+  text-align: center;
 }
