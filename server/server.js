@@ -5,43 +5,49 @@ const axios = require('axios');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContentch?key=${process.env.GEMINI_API_KEY}`;
+const API_URL = `https://openrouter.ai/api/v1/chat/completions`;
 
 app.post("/api/generate", async (req, res) => {
-   const {
-    name, jobTitle, experienceYears, skills, education,
-    experience, strengths, weaknesses, jobDescription
+  const {
+    name, jobTitle, experienceYears, skills, education,jobDescription
   } = req.body;
-  
-   const prompt = `Generate a concise, professional resume summary (no longer than 5 sentences) for ${name}, a ${jobTitle} with ${experienceYears} years of experience.
-                    Include key skills: ${skills}. Background: ${education}. Experience highlights: ${experience}. Strengths: ${strengths}. Weaknesses: ${weaknesses}. 
-                    Tailor it to match this job description: ${jobDescription}. Do not provide options or explanations — return only a single paragraph summary.`;
 
+  const headers = {
+    'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+    'Content-Type': 'application/json',
+    'HTTP-Referer': 'http://localhost:3000',  // optional, customize if needed
+    'X-Title': 'Resume Generator App'
+  };
 
+  const prompt = `Generate a concise, professional resume summary (no longer than 5 sentences) for ${name}, a ${jobTitle} with ${experienceYears} years of experience.
+          Include key skills: ${skills}. Background: ${education}. Tailor it to match this job description: ${jobDescription}. 
+          Do not provide options or explanations — return only a single paragraph summary.`;
 
   try {
-    const response = await axios.post(GEMINI_URL, {
-      contents: [{ parts: [{ text: prompt }] }]
-    });
+    const response = await axios.post(API_URL, {
+      model: 'mistralai/mistral-small-3.2-24b-instruct:free', 
+      messages: [
+        { role: 'system', content: 'You are a helpful assistant.' },
+        { role: 'user', content: prompt }
+      ]
+    }, { headers });
 
-    const aiText = response.data.candidates[0].content.parts[0].text;
-    res.json({ summary: aiText });
-    document.getElementById("summary").value = data.summary;
+    const generatedSummary = response.data.choices[0].message.content;
+    res.json({ summary: generatedSummary });
 
   } catch (error) {
-    console.error("Gemini API error:", error.response?.data || error.message);
-    res.status(500).json({ error: "Failed to generate content" });
+    console.error('Error from OpenRouter API:', error?.response?.data || error.message);
+    res.status(500).json({ error: 'Failed to generate resume summary' });
   }
 });
 
